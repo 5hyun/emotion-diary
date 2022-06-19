@@ -12,7 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <h2>App.js</h2>
+        <h2>Hello App.js</h2>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/new" element={<New />} />
