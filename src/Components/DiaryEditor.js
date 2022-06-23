@@ -1,4 +1,4 @@
-import { useRef, useState, useContext } from "react";
+import { useRef, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { DiaryDispatchContext } from "../App.js";
 
@@ -6,42 +6,11 @@ import MyHeader from "./MyHeader";
 import MyButton from "./MyButton";
 import EmotionItem from "./EmotionItem";
 
-// 감정 리스트
-const emotionList = [
-  {
-    emotion_id: 1,
-    emotion_img: process.env.PUBLIC_URL + `/assets/emotion1.png`,
-    emotion_descript: "완전 좋음",
-  },
-  {
-    emotion_id: 2,
-    emotion_img: process.env.PUBLIC_URL + `/assets/emotion2.png`,
-    emotion_descript: "좋음",
-  },
-  {
-    emotion_id: 3,
-    emotion_img: process.env.PUBLIC_URL + `/assets/emotion3.png`,
-    emotion_descript: "그럭저럭",
-  },
-  {
-    emotion_id: 4,
-    emotion_img: process.env.PUBLIC_URL + `/assets/emotion4.png`,
-    emotion_descript: "나쁨",
-  },
-  {
-    emotion_id: 5,
-    emotion_img: process.env.PUBLIC_URL + `/assets/emotion5.png`,
-    emotion_descript: "끔찍함",
-  },
-];
+import { getStringDate } from "../util/date.js";
+import { emotionList } from "../util/emotion.js";
 
-// 처음부터 오늘의 날짜가 오게 해주기 위한 기능
-const getStringDate = (date) => {
-  // 0~9까지 잘라준다.
-  return date.toISOString().slice(0, 10);
-};
-
-const DiaryEditor = () => {
+// isEdit, originData는 Edit.js에서 왔다.
+const DiaryEditor = ({ isEdit, originData }) => {
   const [date, setDate] = useState(getStringDate(new Date()));
   // 어떤 감정이 선택되었는지 체크해주는 state
   const [emotion, setEmotion] = useState(3);
@@ -56,8 +25,8 @@ const DiaryEditor = () => {
   const handleClickEmote = (emotion) => {
     setEmotion(emotion);
   };
-  // onCreate 가져오기
-  const { onCreate } = useContext(DiaryDispatchContext);
+  // onCreate, onEdit 가져오기
+  const { onCreate, onEdit } = useContext(DiaryDispatchContext);
 
   // 작성 완료 기능
   const handleSubmit = () => {
@@ -66,17 +35,39 @@ const DiaryEditor = () => {
       return;
     }
 
-    onCreate(date, content, emotion);
+    // 일기 생성 or 일기 수정
+    if (
+      window.confirm(
+        isEdit ? "일기를 수정하시겠습니까?" : "새로운 일기를 작성하시겠습니까?"
+      )
+    ) {
+      if (!isEdit) {
+        onCreate(date, content, emotion);
+      } else {
+        onEdit(originData.id, date, content, emotion);
+      }
+    }
+
     // 일기 데이터 저장하면 홈으로 돌아간다.
     // 그래서 일기 작성하는 페이지를 뒤로가게해서 못도록하게 한다.
     navigate("/", { replace: true });
   };
 
+  // Edit때 사용
+  useEffect(() => {
+    if (isEdit) {
+      // 변경되는 일기에 맞게 날짜, 감정, 내용을 바꿔준다.
+      setDate(getStringDate(new Date(parseInt(originData.date))));
+      setEmotion(originData.emotion);
+      setContent(originData.content);
+    }
+  }, [isEdit, originData]);
+
   return (
     <div className="DiaryEditor">
       {/* 헤더 */}
       <MyHeader
-        headText={"새 일기쓰기"}
+        headText={isEdit ? "일기 수정하기" : "새 일기쓰기"}
         leftchild={
           <MyButton text={"< 뒤로가기"} onClick={() => navigate(-1)} />
         }
