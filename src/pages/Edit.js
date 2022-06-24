@@ -25,7 +25,7 @@ const Edit = () => {
         // targetDiary가 존재할 때
         setOriginData(targetDiary);
       } else {
-        alert("없능 일기입니다.");
+        alert("없는 일기입니다.");
         // 만약 그 id 번호가 없으면 저장하지 않고 홈으로 보낸다.
         navigate("/", { replace: true });
       }

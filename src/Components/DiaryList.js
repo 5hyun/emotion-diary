@@ -37,7 +37,7 @@ const ControlMenu = ({ value, onChange, optionList }) => {
 const DiaryList = ({ diaryList }) => {
   const navigate = useNavigate();
   // 정렬 기준을 정할 state이고 초기값은 최신으로 할거라서 lastest
-  const [sortType, setSortType] = useState("lastest");
+  const [sortType, setSortType] = useState("latest");
   // 감정 숫자 기준으로 출력
   const [filter, setFilter] = useState("all");
 

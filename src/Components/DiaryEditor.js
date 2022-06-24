@@ -25,8 +25,8 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const handleClickEmote = (emotion) => {
     setEmotion(emotion);
   };
-  // onCreate, onEdit 가져오기
-  const { onCreate, onEdit } = useContext(DiaryDispatchContext);
+  // onCreate, onEdit, onRemove 가져오기
+  const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
 
   // 작성 완료 기능
   const handleSubmit = () => {
@@ -53,6 +53,14 @@ const DiaryEditor = ({ isEdit, originData }) => {
     navigate("/", { replace: true });
   };
 
+  // 삭제 버튼
+  const handleRemove = () => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      onRemove(originData.id);
+      navigate("/", { replace: true });
+    }
+  };
+
   // Edit때 사용
   useEffect(() => {
     if (isEdit) {
@@ -70,6 +78,15 @@ const DiaryEditor = ({ isEdit, originData }) => {
         headText={isEdit ? "일기 수정하기" : "새 일기쓰기"}
         leftchild={
           <MyButton text={"< 뒤로가기"} onClick={() => navigate(-1)} />
+        }
+        rightchild={
+          isEdit && (
+            <MyButton
+              text={"삭제하기"}
+              type={"negative"}
+              onClick={handleRemove}
+            />
+          )
         }
       />
       {/* 오늘 날짜 */}
@@ -114,7 +131,11 @@ const DiaryEditor = ({ isEdit, originData }) => {
         </section>
         <section>
           <div className="control_box">
-            <MyButton text={"취소하기"} onClick={() => navigate(-1)} />
+            <MyButton
+              text={"취소하기"}
+              type={"negative"}
+              onClick={() => navigate(-1)}
+            />
             <MyButton
               text={"작성완료"}
               type={"positive"}

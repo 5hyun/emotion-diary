@@ -21,11 +21,15 @@ const DiaryItem = ({ id, emotion, content, date }) => {
         onClick={goDetail}
         // 감정에 따라 동적으로 클래스 네임 바꾸기 위해 이렇게 작성
         // 쉼표를 제거하기 위해서 join 매소드 사용
-        class={["emotion_img_wrapper", `emotion_img_wrapper_${emotion}`].join(
-          " "
-        )}
+        className={[
+          "emotion_img_wrapper",
+          `emotion_img_wrapper_${emotion}`,
+        ].join(" ")}
       >
-        <img src={process.env.PUBLIC_URL + `assets/emotion${emotion}.png`} />
+        <img
+          src={process.env.PUBLIC_URL + `assets/emotion${emotion}.png`}
+          alt="이미지"
+        />
       </div>
       <div onClick={goDetail} className="info_wrapper">
         <div className="diary_date">{strDate}</div>

@@ -29,7 +29,10 @@ const Home = () => {
       const lastDay = new Date(
         curDate.getFullYear(),
         curDate.getMonth() + 1,
-        0
+        0,
+        23,
+        59,
+        59
       ).getTime();
 
       // firstDay보다는 커야하고 lastDay보다는 작아야 그 달 안에 있다.
@@ -40,11 +43,6 @@ const Home = () => {
     // diaryList가 바꼈다는 것은 일기가 추가, 수정, 삭제된 것을 의미한다.
     // 따라서 diaryList도 넣어줘야 한다.
   }, [diaryList, curDate]);
-
-  // 제대로 바뀌는지 확인 출력
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   // 오른쪽 버튼 누르면 1달씩 증가
   const increaseMonth = () => {
