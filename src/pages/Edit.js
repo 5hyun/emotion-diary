@@ -13,6 +13,12 @@ const Edit = () => {
   // useContext를 이용해서 일기를 받아온다.
   const diaryList = useContext(DiaryStateContext);
 
+  // 페이지마다 제목 다르게 하기
+  useEffect(() => {
+    const titleElement = document.getElementsByTagName("title")[0];
+    titleElement.innerHTML = `감성 일기장 - ${id}번 일기 수정`;
+  }, []);
+
   // id와 일치하는 값을 Edit 컴포넌트가 마운트됐을 때 사용한다.
   // id나 diaryList가 변할 때, 꺼내온다.
   useEffect(() => {

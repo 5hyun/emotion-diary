@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "5hyun-emotion-diary",
+    "public": "build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

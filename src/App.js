@@ -52,11 +52,13 @@ function App() {
       const diaryList = JSON.parse(localData).sort(
         (a, b) => parseInt(b.id) - parseInt(a.id)
       );
-      // 다음에 만들어질 일기의 id는 저장되어 있는 개수보다 커야된다.
-      dataId.current = parseInt(diaryList[0].id) + 1;
-
-      // 초기값으로 설정하는 액션
-      dispatch({ type: "INIT", data: diaryList });
+      
+      if (diaryList.length >= 1) {
+        // 다음에 만들어질 일기의 id는 저장되어 있는 개수보다 커야된다.
+        dataId.current = parseInt(diaryList[0].id) + 1;
+        // 초기값으로 설정하는 액션
+        dispatch({ type: "INIT", data: diaryList });
+      }
     }
   }, []);
 

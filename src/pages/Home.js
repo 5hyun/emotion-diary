@@ -14,6 +14,12 @@ const Home = () => {
   // month는 1월이 0월로 표시되기 때뮨에 +1 해줘야 한다.
   const headText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월`;
 
+  // 페이지마다 제목 다르게 하기
+  useEffect(() => {
+    const titleElement = document.getElementsByTagName("title")[0];
+    titleElement.innerHTML = `감성 일기장`;
+  }, []);
+
   // useEffect로 curDate가 변화하는 순간 그 달의 데이터를 뽑아와야 한다.
   useEffect(() => {
     // diary가 비어있으면 밑에 코드 수행할 이유가 없다.
